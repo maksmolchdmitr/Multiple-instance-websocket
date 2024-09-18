@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: Multiple instance websocket project
+server:
+  port: 8282
