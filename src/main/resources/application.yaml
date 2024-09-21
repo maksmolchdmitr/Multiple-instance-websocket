@@ -3,3 +3,9 @@ spring:
     name: Multiple instance websocket project
 server:
   port: 8282
+websocket:
+  broker:
+    host: localhost
+    port: 61613
+    username: admin
+    password: admin

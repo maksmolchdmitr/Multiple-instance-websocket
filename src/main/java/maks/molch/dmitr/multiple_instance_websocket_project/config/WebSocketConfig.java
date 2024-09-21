@@ -2,6 +2,7 @@ package maks.molch.dmitr.multiple_instance_websocket_project.config;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import maks.molch.dmitr.multiple_instance_websocket_project.config.props.BrokerConfig;
 import maks.molch.dmitr.multiple_instance_websocket_project.interceptor.WebSocketChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -16,6 +17,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final WebSocketChannelInterceptor webSocketChannelInterceptor;
+    private final BrokerConfig brokerConfig;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -27,7 +29,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/queue", "/topic");
+//        registry.enableSimpleBroker("/queue", "/topic");
+        registry.enableStompBrokerRelay("/queue", "/topic")
+                .setRelayHost(brokerConfig.host())
+                .setRelayPort(brokerConfig.port())
+                .setClientLogin(brokerConfig.username())
+                .setClientPasscode(brokerConfig.password())
+                .setSystemLogin(brokerConfig.username())
+                .setSystemPasscode(brokerConfig.password())
+                .setUserDestinationBroadcast("/topic/unresolved-user")
+                .setUserRegistryBroadcast("/topic/log-user-registry");
         registry.setApplicationDestinationPrefixes("/app");
     }
 

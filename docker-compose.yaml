@@ -13,8 +13,6 @@ services:
     environment:
       ACTIVEMQ_ADMIN_LOGIN: admin
       ACTIVEMQ_ADMIN_PASSWORD: admin
-      ACTIVEMQ_CONFIG_MINMEMORY: 512
-      ACTIVEMQ_CONFIG_MAXMEMORY: 2048
     volumes:
       - activemq_data:/data/activemq
       - activemq_log:/var/log/activemq
